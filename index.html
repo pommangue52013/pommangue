@@ -3,256 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pommangue - Giao diện giả lập</title>
+    <title>Giao diện iPhone ver 26</title>
     <style>
-        /* Thiết lập giao diện tổng thể theo phong cách Retro */
         body {
-            background-color: #f4f4f4;
-            font-family: "Courier New", Courier, monospace, "Times New Roman";
-            color: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             margin: 0;
+            padding: 0;
+            background-color: #f2f2f7; /* Màu nền xám nhạt */
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Thanh bên trái */
+        .sidebar {
+            width: 250px;
+            background-color: #fff;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            border-right: 1px solid #dcdcdc;
         }
 
-        /* Tiêu đề chính của Blog */
-        .site-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-        }
-        .site-title a {
-            color: #1a1a1a;
-            text-decoration: none;
-        }
-        .site-title a:hover {
-            text-decoration: underline;
-        }
-
-        /* Khung mô phỏng cửa sổ phần mềm (Windows/Notepad Window) */
-        .window-container {
-            width: 100%;
-            max-width: 650px;
-            background-color: #ffffff;
-            border: 2px solid #1a1a1a;
-            box-shadow: 4px 4px 0px #1a1a1a;
-            margin-bottom: 30px;
-        }
-
-        /* Thanh tiêu đề của cửa sổ giả lập */
-        .window-header {
-            background-color: #1a1a1a;
-            color: #ffffff;
-            padding: 6px 12px;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-        }
-        .window-controls {
-            font-family: monospace;
-            font-size: 14px;
-        }
-
-        /* Thanh Menu giả lập (File, Edit, Search, Help) */
-        .window-menu {
-            border-bottom: 1px solid #1a1a1a;
-            padding: 4px 12px;
-            font-size: 13px;
-            background-color: #fafafa;
-        }
-        .window-menu span {
-            margin-right: 15px;
-            cursor: pointer;
-        }
-
-        /* Vùng chứa nội dung chính bên trong cửa sổ */
-        .window-body {
-            padding: 25px 20px;
-            line-height: 1.6;
-            font-size: 15px;
-        }
-
-        /* Tiêu đề nội dung truyện/bài viết */
-        .post-title {
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
+        .sidebar h2 {
             margin-top: 0;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .divider {
-            text-align: center;
-            margin: 15px 0;
-            letter-spacing: -1px;
-            color: #555;
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
         }
 
-        /* Cấu trúc thông tin chi tiết bài viết */
-        .info-section {
-            margin: 20px 0;
-        }
-        .info-row {
+        .sidebar li {
             margin-bottom: 10px;
         }
-        .info-label {
-            font-weight: bold;
-        }
-        .info-tags {
-            display: inline-block;
-            background-color: #ededed;
-            padding: 2px 6px;
-            font-size: 13px;
-            margin-right: 5px;
-            border: 1px solid #ccc;
+
+        .sidebar a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+            border-radius: 8px;
         }
 
-        /* Nút bấm chuyển hướng (Tiếp tục / Mục lục) */
-        .action-links {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .btn-link {
-            display: inline-block;
-            color: #ffffff;
-            background-color: #1a1a1a;
-            text-decoration: none;
-            padding: 8px 16px;
-            font-weight: bold;
-            border: 1px solid #1a1a1a;
-            margin: 5px;
-            transition: all 0.2s ease;
-        }
-        .btn-link:hover {
-            background-color: #ffffff;
-            color: #1a1a1a;
-            box-shadow: 2px 2px 0px #1a1a1a;
-        }
-        .secondary-link {
-            display: block;
-            margin-top: 15px;
-            color: #555;
-            text-decoration: underline;
-            font-size: 14px;
+        .sidebar a:hover {
+            background-color: #e5e5ea; /* Màu nền khi di chuột qua */
         }
 
-        /* Danh sách chương (Giả lập danh sách tập tin) */
-        .chapter-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 110px));
-            gap: 12px;
-            justify-content: center;
-            margin-top: 20px;
+        /* Nội dung chính */
+        .main-content {
+            flex: 1;
+            padding: 20px;
         }
-        .chapter-item {
-            text-align: center;
+
+        .main-content h1 {
+            margin-top: 0;
         }
-        .chapter-item a {
-            display: block;
-            color: #1a1a1a;
-            text-decoration: none;
-            padding: 6px;
-            border: 1px dashed #999;
+
+        .book-info {
             background-color: #fff;
-        }
-        .chapter-item a:hover {
-            background-color: #1a1a1a;
-            color: #fff;
-            border-style: solid;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        /* Footer phía dưới cùng của trang */
-        .site-footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #777;
-            text-align: center;
+        .book-info p {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-
-    <div class="site-title">
-        <a href="#">pommangue</a>
-    </div>
-
-    <div class="window-container">
-        <div class="window-header">
-            <span>Quy tắc thu hồi mẫu thí nghiệm bị loại bỏ</span>
-            <div class="window-controls">— ⬜ ✕</div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Hư viện</h2>
+            <ul>
+                <li><a href="#">Thư viện</a></li>
+                <li><a href="#">Bộ sưu tập</a></li>
+                <li><a href="#">Yêu thích</a></li>
+                <li><a href="#">Đã lưu gần đây</a></li>
+                <li><a href="#">Bản đồ</a></li>
+                <li><a href="#">Video</a></li>
+                <li><a href="#">Ảnh màn hình</a></li>
+                <li><a href="#">Ảnh tự sướng</a></li>
+                <li><a href="#">Tài liệu</a></li>
+                <li><a href="#">Đã chỉnh sửa gần đây</a></li>
+                <li><a href="#">Đã xem gần đây</a></li>
+            </ul>
         </div>
-        <div class="window-menu">
-            <span>File</span><span>Edit</span><span>Search</span><span>Help</span>
-        </div>
-        <div class="window-body">
-            <div class="post-title">[ THÔNG TIN MẪU THÍ NGHIỆM ]</div>
-            
-            <div class="divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-            
-            <div class="info-section" style="text-align: center;">
-                <p><span class="info-label">■ TÁC GIẢ:</span> Sái Hoa Thương (耍花枪)</p>
-                
-                <p><span class="info-label">■ CẢNH BÁO:</span><br>
-                Mẫu thí nghiệm rất nguy hiểm,<br>
-                thu hồi cần thận trọng.</p>
-            </div>
-            
-            <div class="divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-            
-            <div style="text-align: center; margin: 20px 0;">
-                <span class="info-tags">niên hạ</span>
-                <span class="info-tags">cường cường</span>
-                <p style="font-style: italic; margin-top: 10px;">mẫu thí nghiệm xinh đẹp x nghiên cứu viên tài giỏi</p>
-            </div>
-            
-            <div class="divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-            
-            <div class="action-links">
-                <a href="#muc-luc" class="btn-link">[> TIẾP TỤC >> 💉]</a>
-                <a href="#muc-luc" class="secondary-link">[Bấm vào để xem danh sách chương]</a>
+        <div class="main-content">
+            <h1>Giới thiệu chung</h1>
+            <div class="book-info">
+                <p><strong>Tên truyện:</strong> Quy tắc thu hồi mẫu thí nghiệm bị loại bỏ</p>
+                <p><strong>TÁC GIẢ:</strong> Sái Hoa Thương (耍花枪)</p>
+                <p><strong>Tóm tắt:</strong></p>
+                <p>Mẫu thí nghiệm rất nguy hiểm,</p>
+                <p>thu hồi cần thận trọng.</p>
+                <p>niên hạ</p>
+                <p>cường cường</p>
+                <p>mẫu thí nghiệm xinh đẹp x nghiên cứu viên tài giỏi</p>
             </div>
         </div>
     </div>
-
-
-    <div id="muc-luc" class="window-container">
-        <div class="window-header">
-            <span>📂 mục lục</span>
-            <div class="window-controls">— □ ✕</div>
-        </div>
-        <div class="window-menu">
-            <span>File</span><span>Edit</span><span>View</span><span>Search</span><span>Help</span>
-        </div>
-        <div class="window-body">
-            <div style="font-style: italic; color:#666; margin-bottom: 15px;">[ đang mò… ]</div>
-            
-            <div class="chapter-grid">
-                <div class="chapter-item"><a href="#">📝 g.th</a></div>
-                <div class="chapter-item"><a href="#">📁 001</a></div>
-                <div class="chapter-item"><a href="#">📁 002</a></div>
-                <div class="chapter-item"><a href="#">📁 003</a></div>
-                <div class="chapter-item"><a href="#">📁 004</a></div>
-                <div class="chapter-item"><a href="#">📁 005</a></div>
-                <div class="chapter-item"><a href="#">📁 006</a></div>
-                <div class="chapter-item"><a href="#">📁 007</a></div>
-                <div class="chapter-item"><a href="#">📁 008</a></div>
-                <div class="chapter-item"><a href="#">📁 009</a></div>
-                <div class="chapter-item"><a href="#">📁 010</a></div>
-            </div>
-            
-            <div class="divider" style="margin-top: 30px;">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
-            <div style="font-size: 13px; color: #555;">Total files: 11 / Status: Ready</div>
-        </div>
-    </div>
-
-    <div class="site-footer">
-        © Trang web được lấy cảm hứng từ pommangue | Hosted trên GitHub Pages
-    </div>
-
 </body>
 </html>
