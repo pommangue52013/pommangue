@@ -1,299 +1,392 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Quy tắc thu hồi mẫu thí nghiệm bị loại bỏ</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
 }
 
 body{
-    background:#d9d9d9;
-    height:100vh;
-    overflow:hidden;
-    color:#222;
+    background:#f6f6f6;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+    color:#1f1f1f;
 }
 
-/* nền mờ kiểu ipad photos */
-.bg{
-    position:fixed;
-    inset:0;
-    background:
-    linear-gradient(rgba(255,255,255,0.45),
-    rgba(255,255,255,0.45)),
-    url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2070&auto=format&fit=crop');
-    background-size:cover;
-    background-position:center;
-    filter:blur(10px);
-    transform:scale(1.1);
-}
+/* topbar */
 
-/* layout */
-.app{
-    position:relative;
-    z-index:2;
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:rgba(255,255,255,0.88);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid #ececec;
+    padding:14px 28px;
+
     display:flex;
-    height:100vh;
-    backdrop-filter:blur(30px);
+    align-items:center;
+    justify-content:space-between;
 }
 
-/* sidebar */
-.sidebar{
-    width:260px;
-    background:rgba(255,255,255,0.35);
-    border-right:1px solid rgba(255,255,255,0.4);
-    padding:24px 18px;
-    backdrop-filter:blur(25px);
-}
-
-.sidebar h1{
+.logo{
     font-size:28px;
-    margin-bottom:35px;
     font-weight:700;
 }
 
 .menu{
     display:flex;
-    flex-direction:column;
-    gap:10px;
+    gap:14px;
+    align-items:center;
 }
 
 .menu a{
     text-decoration:none;
-    color:#222;
-    padding:14px 16px;
-    border-radius:16px;
-    transition:0.25s;
+    color:#111;
+    padding:12px 18px;
+    border-radius:999px;
     font-size:15px;
+    transition:0.2s;
 }
 
 .menu a:hover{
-    background:rgba(255,255,255,0.55);
+    background:#efefef;
 }
 
 .menu .active{
-    background:#dce9ff;
-    color:#2f5fd7;
-    font-weight:600;
+    background:#111;
+    color:white;
 }
 
-/* main */
-.main{
-    flex:1;
-    padding:35px;
-    overflow:auto;
-}
+/* pinterest masonry */
 
-/* topbar */
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:30px;
-}
+.container{
+    width:100%;
+    max-width:1600px;
+    margin:auto;
+    padding:24px;
 
-.time{
-    font-size:14px;
-    color:#555;
-}
-
-.icons{
-    display:flex;
-    gap:12px;
-}
-
-.icon{
-    width:42px;
-    height:42px;
-    border-radius:14px;
-    background:rgba(255,255,255,0.5);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    backdrop-filter:blur(20px);
-    font-size:18px;
+    columns:5 280px;
+    column-gap:20px;
 }
 
 /* card */
+
 .card{
     width:100%;
-    max-width:920px;
-    margin:auto;
-    background:rgba(255,255,255,0.42);
-    border:1px solid rgba(255,255,255,0.5);
-    border-radius:36px;
-    padding:40px;
-    backdrop-filter:blur(35px);
+    display:inline-block;
+    margin-bottom:20px;
+    border-radius:28px;
+    overflow:hidden;
+    background:white;
+    break-inside:avoid;
+
+    transition:0.25s;
+    cursor:pointer;
+
     box-shadow:
-    0 10px 40px rgba(0,0,0,0.08);
+    0 4px 20px rgba(0,0,0,0.05);
 }
 
-/* title */
+.card:hover{
+    transform:translateY(-4px);
+}
+
+/* image */
+
 .cover{
     width:100%;
-    height:280px;
-    border-radius:28px;
-    background:url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1974&auto=format&fit=crop');
-    background-size:cover;
-    background-position:center;
-    margin-bottom:30px;
+    object-fit:cover;
+    display:block;
+}
+
+/* content */
+
+.content{
+    padding:20px;
+}
+
+.small{
+    font-size:13px;
+    color:#767676;
+    margin-bottom:10px;
 }
 
 .title{
-    font-size:42px;
+    font-size:26px;
+    line-height:1.25;
     font-weight:700;
-    line-height:1.2;
     margin-bottom:18px;
 }
 
-.author{
-    font-size:18px;
+.text{
+    font-size:15px;
+    line-height:1.8;
     color:#444;
-    margin-bottom:28px;
 }
 
-.section{
-    margin-bottom:30px;
-}
+/* tags */
 
-.section h2{
-    font-size:18px;
-    margin-bottom:12px;
-    color:#111;
-}
-
-.section p{
-    font-size:16px;
-    line-height:1.9;
-    color:#333;
-}
-
-/* tag */
 .tags{
     display:flex;
-    gap:12px;
     flex-wrap:wrap;
-    margin-top:14px;
+    gap:10px;
+    margin-top:20px;
 }
 
 .tag{
-    padding:10px 18px;
+    padding:9px 14px;
     border-radius:999px;
-    background:rgba(255,255,255,0.65);
+    background:#f2f2f2;
+    font-size:13px;
+}
+
+/* aesthetic cards */
+
+.mini{
+    padding:18px;
+    font-size:20px;
+    line-height:1.5;
+    font-weight:600;
+}
+
+.dark{
+    background:#1f1f1f;
+    color:white;
+}
+
+.soft{
+    background:#ece7e2;
+}
+
+.blue{
+    background:#dce7f8;
+}
+
+.quote{
+    font-size:28px;
+    line-height:1.4;
+}
+
+/* footer */
+
+.footer{
+    text-align:center;
+    color:#777;
+    padding:40px 20px 60px;
     font-size:14px;
-    backdrop-filter:blur(20px);
 }
 
 /* mobile */
-@media(max-width:900px){
 
-    .sidebar{
-        display:none;
+@media(max-width:700px){
+
+    .topbar{
+        padding:14px 16px;
     }
 
-    .main{
-        padding:20px;
+    .logo{
+        font-size:22px;
     }
 
-    .card{
-        padding:25px;
-        border-radius:28px;
+    .menu{
+        gap:6px;
+    }
+
+    .menu a{
+        padding:10px 14px;
+        font-size:13px;
+    }
+
+    .container{
+        padding:14px;
+        column-gap:14px;
     }
 
     .title{
-        font-size:30px;
-    }
-
-    .cover{
-        height:220px;
+        font-size:22px;
     }
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
+<!-- top -->
 
-<div class="app">
+<div class="topbar">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <h1>Library</h1>
+    <div class="logo">
+        pinterest.
+    </div>
 
-        <div class="menu">
-            <a class="active" href="#">Collections</a>
-            <a href="#">Favorites</a>
-            <a href="#">Recently Saved</a>
-            <a href="#">Characters</a>
-            <a href="#">Timeline</a>
-            <a href="#">Gallery</a>
-            <a href="#">About Editor</a>
-        </div>
-    </aside>
+    <div class="menu">
+        <a class="active" href="#">Home</a>
+        <a href="#">Novel</a>
+        <a href="#">Characters</a>
+        <a href="#">Gallery</a>
+    </div>
 
-    <!-- Main -->
-    <main class="main">
+</div>
 
-        <div class="topbar">
+<!-- masonry layout -->
 
-            <div class="time">
-                10:51 AM · Thu May 7
+<div class="container">
+
+    <!-- big intro -->
+
+    <div class="card">
+
+        <img class="cover"
+        style="height:520px;"
+        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1974&auto=format&fit=crop">
+
+        <div class="content">
+
+            <div class="small">
+                EDIT PROJECT
             </div>
-
-            <div class="icons">
-                <div class="icon">☰</div>
-                <div class="icon">⋯</div>
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="cover"></div>
 
             <div class="title">
                 Quy tắc thu hồi<br>
                 mẫu thí nghiệm bị loại bỏ
             </div>
 
-            <div class="author">
-                TÁC GIẢ: <b>Sái Hoa Thương (耍花枪)</b>
+            <div class="text">
+                <b>TÁC GIẢ:</b><br>
+                Sái Hoa Thương (耍花枪)
             </div>
 
-            <div class="section">
-                <h2>Tóm tắt</h2>
+        </div>
 
-                <p>
-                    Mẫu thí nghiệm rất nguy hiểm,<br>
-                    thu hồi cần thận trọng.
-                </p>
+    </div>
+
+    <!-- summary -->
+
+    <div class="card soft">
+
+        <div class="mini quote">
+            “Mẫu thí nghiệm rất nguy hiểm,
+            thu hồi cần thận trọng.”
+        </div>
+
+    </div>
+
+    <!-- aesthetic -->
+
+    <div class="card">
+
+        <img class="cover"
+        style="height:300px;"
+        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop">
+
+    </div>
+
+    <!-- tags -->
+
+    <div class="card">
+
+        <div class="content">
+
+            <div class="small">
+                TAG
             </div>
 
-            <div class="section">
+            <div class="tags">
 
-                <h2>Tag</h2>
-
-                <div class="tags">
-                    <div class="tag">niên hạ</div>
-                    <div class="tag">cường cường</div>
-                    <div class="tag">mẫu thí nghiệm xinh đẹp</div>
-                    <div class="tag">nghiên cứu viên tài giỏi</div>
-                </div>
+                <div class="tag">niên hạ</div>
+                <div class="tag">cường cường</div>
+                <div class="tag">mẫu thí nghiệm xinh đẹp</div>
+                <div class="tag">nghiên cứu viên tài giỏi</div>
 
             </div>
 
         </div>
 
-    </main>
+    </div>
 
+    <!-- dark quote -->
+
+    <div class="card dark">
+
+        <div class="mini">
+            EXPERIMENT<br>
+            RECOVERY<br>
+            FILE
+        </div>
+
+    </div>
+
+    <!-- image -->
+
+    <div class="card">
+
+        <img class="cover"
+        style="height:440px;"
+        src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop">
+
+    </div>
+
+    <!-- blue card -->
+
+    <div class="card blue">
+
+        <div class="mini">
+            研究员档案<br><br>
+
+            Subject dangerous.<br>
+            Handle carefully.
+        </div>
+
+    </div>
+
+    <!-- character -->
+
+    <div class="card">
+
+        <img class="cover"
+        style="height:380px;"
+        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop">
+
+        <div class="content">
+
+            <div class="small">
+                CHARACTER
+            </div>
+
+            <div class="text">
+                Mẫu thí nghiệm xinh đẹp ×
+                nghiên cứu viên tài giỏi
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- extra -->
+
+    <div class="card soft">
+
+        <div class="mini">
+            SCIENCE FICTION<br>
+            LABORATORY<br>
+            DANGER
+        </div>
+
+    </div>
+
+</div>
+
+<div class="footer">
+    made with pinterest style ♡
 </div>
 
 </body>
