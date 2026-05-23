@@ -1,262 +1,300 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giao diện IP Ver 26 - Quy tắc thu hồi mẫu thí nghiệm</title>
-    <style>
-        /* Thiết lập giao diện tổng thể theo phong cách iOS */
-        body {
-            background-color: #f0f0f5; /* Màu nền nhẹ của iPad */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            color: #1a1a1a;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-        /* Khung chứa giao diện chính */
-        .ios-interface {
-            width: 100%;
-            max-width: 1100px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            overflow: hidden;
-            display: flex;
-        }
+<title>Quy tắc thu hồi mẫu thí nghiệm bị loại bỏ</title>
 
-        /* --- Thanh Sidebar bên trái --- */
-        .sidebar {
-            width: 250px;
-            background-color: #f7f7f9;
-            padding: 20px;
-            border-right: 1px solid #e0e0e0;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+}
 
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+body{
+    background:#d9d9d9;
+    height:100vh;
+    overflow:hidden;
+    color:#222;
+}
 
-        .edit-label {
-            font-size: 16px;
-            color: #007aff; /* Màu xanh của iOS */
-            font-weight: 500;
-        }
+/* nền mờ kiểu ipad photos */
+.bg{
+    position:fixed;
+    inset:0;
+    background:
+    linear-gradient(rgba(255,255,255,0.45),
+    rgba(255,255,255,0.45)),
+    url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=2070&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    filter:blur(10px);
+    transform:scale(1.1);
+}
 
-        .collections-label {
-            font-size: 16px;
-            font-weight: bold;
-            color: #000;
-        }
+/* layout */
+.app{
+    position:relative;
+    z-index:2;
+    display:flex;
+    height:100vh;
+    backdrop-filter:blur(30px);
+}
 
-        .pinned-label {
-            font-size: 14px;
-            color: #777;
-            text-transform: uppercase;
-            margin-top: 15px;
-            display: block;
-        }
+/* sidebar */
+.sidebar{
+    width:260px;
+    background:rgba(255,255,255,0.35);
+    border-right:1px solid rgba(255,255,255,0.4);
+    padding:24px 18px;
+    backdrop-filter:blur(25px);
+}
 
-        .menu-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+.sidebar h1{
+    font-size:28px;
+    margin-bottom:35px;
+    font-weight:700;
+}
 
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            color: #000;
-            text-decoration: none;
-            font-size: 15px;
-        }
+.menu{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
 
-        .menu-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 15px;
-            color: #007aff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+.menu a{
+    text-decoration:none;
+    color:#222;
+    padding:14px 16px;
+    border-radius:16px;
+    transition:0.25s;
+    font-size:15px;
+}
 
-        /* --- Khu vực nội dung chính bên phải --- */
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
+.menu a:hover{
+    background:rgba(255,255,255,0.55);
+}
 
-        /* --- Các thẻ nội dung (Card) --- */
-        .content-card {
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+.menu .active{
+    background:#dce9ff;
+    color:#2f5fd7;
+    font-weight:600;
+}
 
-        .content-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            filter: blur(10px); /* Hiệu ứng mờ như ảnh bạn gửi */
-        }
+/* main */
+.main{
+    flex:1;
+    padding:35px;
+    overflow:auto;
+}
 
-        .card-body {
-            padding: 15px;
-            line-height: 1.5;
-        }
+/* topbar */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
 
-        .card-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin: 0 0 10px 0;
-        }
+.time{
+    font-size:14px;
+    color:#555;
+}
 
-        .card-text {
-            font-size: 14px;
-            color: #333;
-            margin: 0;
-        }
+.icons{
+    display:flex;
+    gap:12px;
+}
 
-        .card-meta {
-            font-size: 13px;
-            color: #777;
-            margin-top: 5px;
-        }
+.icon{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    backdrop-filter:blur(20px);
+    font-size:18px;
+}
 
-        /* --- Vùng Context Menu giả lập --- */
-        .context-menu-area {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
+/* card */
+.card{
+    width:100%;
+    max-width:920px;
+    margin:auto;
+    background:rgba(255,255,255,0.42);
+    border:1px solid rgba(255,255,255,0.5);
+    border-radius:36px;
+    padding:40px;
+    backdrop-filter:blur(35px);
+    box-shadow:
+    0 10px 40px rgba(0,0,0,0.08);
+}
 
-        .context-menu {
-            border: 1px solid #ccc;
-            background: white;
-            padding: 8px;
-            border-radius: 8px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-        }
+/* title */
+.cover{
+    width:100%;
+    height:280px;
+    border-radius:28px;
+    background:url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1974&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    margin-bottom:30px;
+}
 
-        .context-item {
-            padding: 6px 12px;
-            color: #000;
-            cursor: pointer;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-        }
+.title{
+    font-size:42px;
+    font-weight:700;
+    line-height:1.2;
+    margin-bottom:18px;
+}
 
-        .context-item:hover {
-            background-color: #f0f0f0;
-        }
+.author{
+    font-size:18px;
+    color:#444;
+    margin-bottom:28px;
+}
 
-        .context-icon {
-            width: 18px;
-            margin-right: 8px;
-        }
+.section{
+    margin-bottom:30px;
+}
 
-        /* --- Vùng giới thiệu tóm tắt truyện --- */
-        .book-intro {
-            border: 1px dashed #ccc;
-            padding: 15px;
-            background-color: #fafafa;
-            border-radius: 8px;
-            text-align: center;
-        }
+.section h2{
+    font-size:18px;
+    margin-bottom:12px;
+    color:#111;
+}
 
-        .book-intro h3 {
-            margin-top: 0;
-        }
+.section p{
+    font-size:16px;
+    line-height:1.9;
+    color:#333;
+}
 
-        .book-intro p {
-            margin: 5px 0;
-        }
+/* tag */
+.tags{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
 
-        .tiktok-watermark {
-            font-size: 12px;
-            color: #999;
-            text-align: center;
-            margin-top: 10px;
-            font-style: italic;
-        }
+.tag{
+    padding:10px 18px;
+    border-radius:999px;
+    background:rgba(255,255,255,0.65);
+    font-size:14px;
+    backdrop-filter:blur(20px);
+}
 
-    </style>
+/* mobile */
+@media(max-width:900px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        padding:20px;
+    }
+
+    .card{
+        padding:25px;
+        border-radius:28px;
+    }
+
+    .title{
+        font-size:30px;
+    }
+
+    .cover{
+        height:220px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="ios-interface">
+<div class="bg"></div>
 
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <span class="edit-label">Sửa</span>
-                <span class="collections-label">Bộ sưu tập</span>
-                <span class="edit-label">Chọn</span>
-            </div>
+<div class="app">
 
-            <ul class="menu-list">
-                <a href="#" class="menu-item"><span class="menu-icon">🖼️</span>Thư viện</a>
-                <a href="#" class="menu-item"><span class="menu-icon">📁</span>Văn bản</a>
-                <span class="pinned-label">Đã Ghim</span>
-                <a href="#" class="menu-item"><span class="menu-icon">⭐</span>Mục yêu thích</a>
-                <a href="#" class="menu-item"><span class="menu-icon">📝</span>Đã chỉnh sửa gần đây</a>
-                <a href="#" class="menu-item"><span class="menu-icon">🗺️</span>Bản đồ</a>
-                <a href="#" class="menu-item"><span class="menu-icon">📁</span>Bộ truyện</a>
-            </ul>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h1>Library</h1>
+
+        <div class="menu">
+            <a class="active" href="#">Collections</a>
+            <a href="#">Favorites</a>
+            <a href="#">Recently Saved</a>
+            <a href="#">Characters</a>
+            <a href="#">Timeline</a>
+            <a href="#">Gallery</a>
+            <a href="#">About Editor</a>
         </div>
+    </aside>
 
-        <div class="main-content">
-            
-            <div class="content-card">
-                <img src="https://via.placeholder.com/400x300.png?text=Tên+Truyện" alt="Quy tắc thu hồi mẫu thí nghiệm">
-                <div class="card-body">
-                    <h3 class="card-title">Quy tắc thu hồi mẫu thí nghiệm bị loại bỏ</h3>
-                    <p class="card-meta">Lưu: 7 tháng 5, 2026</p>
-                    <p class="card-text">
-                        <strong>TÁC GIẢ:</strong> Sái Hoa Thương (耍花枪)
-                    </p>
-                </div>
+    <!-- Main -->
+    <main class="main">
+
+        <div class="topbar">
+
+            <div class="time">
+                10:51 AM · Thu May 7
             </div>
 
-            <div class="content-card">
-                <div class="card-body">
-                    <div class="context-menu-area">
-                        <h4 class="card-title">Tóm tắt</h4>
-                        <div class="context-menu">
-                            <div class="context-item"><span class="context-icon">📎</span>Sao chép</div>
-                            <div class="context-item"><span class="context-icon">📁</span>Sao lưu</div>
-                            <div class="context-item"><span class="context-icon">🗑️</span>Xóa</div>
-                        </div>
-                    </div>
-                    <div class="book-intro">
-                        <h3>[ đang mò… ]</h3>
-                        <p><strong>Mẫu thí nghiệm rất nguy hiểm,</strong></p>
-                        <p><strong>thu hồi cần thận trọng.</strong></p>
-                        <p>niên hạ</p>
-                        <p>cường cường</p>
-                        <p>mẫu thí nghiệm xinh đẹp x nghiên cứu viên tài giỏi</p>
-                    </div>
-            
-                </div>
+            <div class="icons">
+                <div class="icon">☰</div>
+                <div class="icon">⋯</div>
             </div>
 
         </div>
 
-    </div>
+        <div class="card">
+
+            <div class="cover"></div>
+
+            <div class="title">
+                Quy tắc thu hồi<br>
+                mẫu thí nghiệm bị loại bỏ
+            </div>
+
+            <div class="author">
+                TÁC GIẢ: <b>Sái Hoa Thương (耍花枪)</b>
+            </div>
+
+            <div class="section">
+                <h2>Tóm tắt</h2>
+
+                <p>
+                    Mẫu thí nghiệm rất nguy hiểm,<br>
+                    thu hồi cần thận trọng.
+                </p>
+            </div>
+
+            <div class="section">
+
+                <h2>Tag</h2>
+
+                <div class="tags">
+                    <div class="tag">niên hạ</div>
+                    <div class="tag">cường cường</div>
+                    <div class="tag">mẫu thí nghiệm xinh đẹp</div>
+                    <div class="tag">nghiên cứu viên tài giỏi</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
 
 </body>
 </html>
